@@ -1,5 +1,6 @@
 package com.jiang.eduservice.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jiang.eduservice.entity.EduCourse;
 import com.jiang.eduservice.entity.EduCourseDescription;
 import com.jiang.eduservice.entity.vo.CourseInfoVo;
@@ -13,7 +14,10 @@ import com.jiang.eduservice.service.EduVideoService;
 import com.jiang.servicebase.exceptionhandler.ServiceException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -31,6 +35,9 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     //注入小节和章节的service
     @Autowired
     private EduVideoService eduVideoService;
+
+    @Autowired
+    private EduCourseService eduCourseService;
 
     @Autowired
     private EduChapterService eduChapterService;
@@ -72,6 +79,18 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
         return courseInfoVo;
     }
+
+    //查询所有课程基本信息
+    @Cacheable(value = "banner", key = "'selectCourseList'")
+    @Override
+    public List<EduCourse> getAllCourseInfo() {
+        QueryWrapper<EduCourse> wrapper=new QueryWrapper<>();
+        wrapper.orderByDesc("id");
+        wrapper.last("limit 8");
+        List<EduCourse> list=eduCourseService.list(wrapper);
+        return  list;
+    }
+
 
     //修改课程基本信息
     @Override

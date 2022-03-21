@@ -44,7 +44,7 @@ public class EduTeacherController {
     @GetMapping("/findAll")
     public R findAllTeacher() {
         //调用service方法实现查询所有的操作
-        List<EduTeacher> list = teacherService.list(null);
+        List<EduTeacher> list = teacherService.getAllTeacherInfo();
         return R.ok().data("items",list);
     }
 

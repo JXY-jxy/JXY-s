@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.jiang.eduservice.entity.vo.CourseInfoVo;
 import com.jiang.eduservice.entity.vo.CoursePublishVo;
 
+import java.util.List;
+
 /**
  * <p>
  * 课程 服务类
@@ -18,6 +20,8 @@ public interface EduCourseService extends IService<EduCourse> {
     void saveCourseInfo(CourseInfoVo courseInfoVo);
     //查询课程信息
     CourseInfoVo getCourseInfo(String courseId);
+    //查询所有课程
+    List<EduCourse> getAllCourseInfo();
     //修改课程基本信息
     void updateCourseInfo(CourseInfoVo courseInfoVo);
     //根据课程id查询课程确认信息
